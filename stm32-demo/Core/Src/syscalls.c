@@ -180,3 +180,23 @@ int _execve(char *name, char **argv, char **env)
   errno = ENOMEM;
   return -1;
 }
+
+void* __real_malloc(size_t size);
+void __real_free(void *);
+
+uint32_t malloc_counter = 0;
+uint32_t free_counter = 0;
+
+void* __wrap_malloc(size_t size)
+{
+  void *pvReturn;
+  pvReturn = __real_malloc(size);
+  malloc_counter++;
+  return pvReturn;
+}
+
+void __wrap_free(void *pv)
+{
+  __real_free(pv);
+  free_counter++;
+}
