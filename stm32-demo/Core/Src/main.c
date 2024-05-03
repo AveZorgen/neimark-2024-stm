@@ -22,6 +22,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "cpp-code.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -101,7 +102,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
     cpp_code_entry_point();
-    HAL_UART_Transmit(&huart1, text, sizeof(text), 100);
+    printf("%s", text);
     HAL_Delay(1000);
   }
   /* USER CODE END 3 */

@@ -25,11 +25,13 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <signal.h>
 #include <time.h>
 #include <sys/time.h>
 #include <sys/times.h>
 
+#include "stm32f1xx_hal.h"
 
 /* Variables */
 extern int __io_putchar(int ch) __attribute__((weak));
@@ -77,10 +79,19 @@ __attribute__((weak)) int _read(int file, char *ptr, int len)
   return len;
 }
 
-__attribute__((weak)) int _write(int file, char *ptr, int len)
+extern UART_HandleTypeDef huart1;
+int _write(int file, char *ptr, int len)
 {
-  (void)file; (void)ptr; (void)len;
-  // Here should be write implementation. Use UART :)
+  switch (file)
+  {
+  case STDOUT_FILENO:
+  case STDERR_FILENO:
+  	HAL_UART_Transmit(&huart1, (uint8_t *) ptr, len, 100);
+  	break;
+  default:
+  	errno = EBADF;
+  	return -1;
+  }
   return len;
 }
 
