@@ -16,10 +16,17 @@ void function_to_investigate()
     }
 }
 
+extern uint32_t malloc_counter;
+extern uint32_t free_counter;
+extern uint32_t _sbrk_counter;
+
 void print_stat()
 {
     // Some code here should print statistic of _sbrk, malloc, free usage
     printf("%s", cpp_text);
+    printf("_sbrk_counter: %lu\r\n", _sbrk_counter);
+    printf("malloc_counter: %lu\r\n", malloc_counter);
+    printf("free_counter: %lu\r\n", free_counter);
 }
 
 void cpp_code_entry_point()
